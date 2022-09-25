@@ -1,0 +1,30 @@
+.MMM-Ecowatt {
+    font-size: 18px;
+    text-align: left !important;
+}
+.MMM-Ecowatt .signalTable {
+    border-collapse: collapse !important;
+}
+.MMM-Ecowatt .signalTable tr {
+    height: 15px;
+    border-top: 1px solid #000;
+}
+.MMM-Ecowatt .signalTable td {
+    width: 20px;
+}
+.MMM-Ecowatt .signalHours td {
+    font-size: 14px;
+    text-align: left !important;
+}
+.MMM-Ecowatt .signalHours td span {
+    margin-left: -14px;
+}
+.MMM-Ecowatt .signalLoad1 {
+    background-color:  #02c09e;
+}
+.MMM-Ecowatt .signalLoad2 {
+    background-color:  #c05f0a;
+}
+.MMM-Ecowatt .signalLoad3 {
+    background-color:  #a4151f ;
+}
