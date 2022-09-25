@@ -23,8 +23,8 @@ Module.register("MMM-Ecowatt", {
         retryDelay: 2500,
         apiBaseUrl: "https://digital.iservices.rte-france.com",
         apiOAuthPath: "/token/oauth/",
-        //apiSignalsPath: "/open_api/ecowatt/v4/signals", 
-        apiSignalsPath: "/open_api/ecowatt/v4/sandbox/signals", //sandbox
+        apiSignalsPath: "/open_api/ecowatt/v4/signals", 
+        //apiSignalsPath: "/open_api/ecowatt/v4/sandbox/signals", //sandbox
         showText: true,
         showGraph: true,
         signals: [],
@@ -86,9 +86,6 @@ Module.register("MMM-Ecowatt", {
             this.config.hasData = data.signals != null && data.signals.length > 0;      
             
             if (this.config.hasData) {
-                // Text data
-                //this.config.rainData.rainText = data.forecast[0].desc;
-
                 // Graph data
                 this.config.signals = data.signals.sort(function(a,b){
                     return new Date(a.jour) - new Date(b.jour);
@@ -109,14 +106,6 @@ Module.register("MMM-Ecowatt", {
                 if (this.config.days) {
                     this.config.signals.length = this.config.days;
                 }
-               /* const dataWithRain = this.config.rainData.rainGraph.filter(rainGraph => rainGraph.rain >= 2);
-                if (this.config.debug === 1) {
-                    Log.info(this.name + " getData : ");
-                    Log.info(dataWithRain);
-                }
-                this.config.rainData.hasRain = dataWithRain.length > 0;
-                this.config.rainData.rainGraphTimes = [];
-                data.forecast.forEach(element => this.config.rainData.rainGraphTimes.push(moment(element.dt, "X").format('H:mm')));*/
             }
 
             this.updateDom(this.config.animationSpeed);
