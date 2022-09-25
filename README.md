@@ -46,4 +46,4 @@ Here is an example of an entry in `config.js`
 
 
 ## Notes
-Data provided by <a href="https://data.rte-france.com/catalog/-/api/consumption/Ecowatt/v4.0">Ecowatt (RTE France)</a> and updated every 20 minutes.
+Data provided by <a href="https://www.monecowatt.fr/">Ecowatt</a> and updated every 20 minutes.
