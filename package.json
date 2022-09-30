@@ -1,5 +1,5 @@
 {
-  "name": "mmm-ecowatt",
+  "name": "MMM-Ecowatt",
   "version": "1.0.0",
   "description": "A MagicMirror module to display Ecowatt informations.",
   "repository": {
