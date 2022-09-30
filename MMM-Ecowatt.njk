@@ -9,29 +9,27 @@
 		<span>{{ signals[0].message }}</span>
 	</div>
 	
-	<div class="normal small signals">
+	<div class="signals">
 		{% for signalData in signals %}
-			{% if config.showText %}
-				{{ signalData.displayDay }}, {{ signalData.message }}
-			{% endif %}
-			{% if config.showGraph %}
-				<table class="signalTable">
-					<tr>
+			<div>
+				{% if config.showText or config.showGraph %}
+					<div class="normal small day">{{ signalData.displayDay }}</div>
+				{% endif %}
+				{% if config.showText %}
+					<div class="light small message">{{ signalData.message }}</div>
+				{% endif %}
+				{% if config.showGraph %}
+					<div class="timeline">
 						{% for signalValue in signalData.values %}
-							<td style="background-color: {{ signalValue.hvalue | level2color }};"></td>
-						{% endfor %}
-					</tr>
-					<tr class="signalHours">
-						{% for signalValue in signalData.values %}
-							{% if (signalValue.pas % 2 == 0) %}
-								<td><span>{{ signalValue.pas }}h</span></td>
-							{% else %}
-								<td><span></span></td>
+							<div class="signal" style="background-color: {{ signalValue.hvalue | level2color }};">
+							{% if signalData.values.indexOf(signalValue) % 2 == 0 %}
+								<div class="light xsmall hour">{{ signalValue.pas }}h</div>
 							{% endif %}
+							</div>
 						{% endfor %}
-					</tr>
-				</table>
-			{% endif %}
+					</div>
+				{% endif %}
+			</div>
 		{% endfor %}
 	</div>
 {% else %}
