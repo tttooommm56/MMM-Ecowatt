@@ -1,10 +1,12 @@
 /* Magic Mirror
  * Module: MMM-Ecowatt
  *
- * By tttooommm56 https://github.com/tttooommm56
+ * Magic Mirror By Michael Teeuw https://magicmirror.builders
+ * MIT Licensed.
+ *
+ * Module MMM-Ecowatt By tttooommm56 https://github.com/tttooommm56
  * MIT Licensed.
  */
- 
 
 var NodeHelper = require('node_helper');
 var axios = require('axios');

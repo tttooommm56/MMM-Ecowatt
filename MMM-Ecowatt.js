@@ -1,10 +1,13 @@
-/* global Module */
 /* Magic Mirror
  * Module: MMM-Ecowatt
  *
- * By tttooommm56 https://github.com/tttooommm56
+ * Magic Mirror By Michael Teeuw https://magicmirror.builders
+ * MIT Licensed.
+ *
+ * Module MMM-Ecowatt By tttooommm56 https://github.com/tttooommm56
  * MIT Licensed.
  */
+
 Module.register("MMM-Ecowatt", {
 
 	// Default module config.
