@@ -87,11 +87,11 @@ Module.register("MMM-Ecowatt", {
 				this.config.signals.forEach(signal => {
 					var momentDay = moment(signal.jour);
 					if (moment().isSame(momentDay, 'day')) {
-						signal.displayDay = "aujourd'hui"; 
+						signal.displayDay = "Aujourd'hui"; 
 					} else if (moment().add(1, 'day').isSame(momentDay, 'day')) {
-						signal.displayDay = "demain"; 
+						signal.displayDay = "Demain"; 
 					} else {
-						signal.displayDay = momentDay.format('dddd');
+						signal.displayDay = this.capFirst(momentDay.format('dddd'));
 					}
 				});
 
@@ -122,6 +122,11 @@ Module.register("MMM-Ecowatt", {
 			self.processSignals(payload);
 		}
 
+	},
+	
+	// Capitalize the first letter of a string
+	capFirst: function (string) {
+		return string.charAt(0).toUpperCase() + string.slice(1);
 	}
 
 });

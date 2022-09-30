@@ -9,7 +9,7 @@
 		{% for signalData in signals %}
 			{% if showText %}
 				<!-- Message ecowatt -->
-				{{ signalData.message }} {{ signalData.displayDay }}
+				{{ signalData.displayDay }} : {{ signalData.message }}
 				<br/>
 			{% endif %}
 
