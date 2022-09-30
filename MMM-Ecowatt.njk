@@ -1,38 +1,29 @@
-<!--
-	Use ` | safe` to allow html tages within the text string.
-	https://mozilla.github.io/nunjucks/templating.html#autoescaping
--->
-<div class="MMM-Ecowatt small light">
-	{% if not hasData %}
-		Pas de données disponibles
-	{% else %}
-		{% for signalData in signals %}
-			{% if showText %}
-				<!-- Message ecowatt -->
-				{{ signalData.displayDay }} : {{ signalData.message }}
-				<br/>
-			{% endif %}
-
-			{% if showGraph %}
-				<!-- Graph ecowatt -->
-				<table class="signalTable">
-					<tr>
-						{% for signalValue in signalData.values %}
-							<td class={{"signalLoad" + signalValue.hvalue}}></td>
-						{% endfor %}
-					</tr>
-					<tr class="signalHours">
-						{% for signalValue in signalData.values %}
-							{% if (signalValue.pas % 2 == 0) %}
-								<td><span>{{ signalValue.pas }}h</span></td>
-							{% else %}
-								<td><span></span></td>
-							{% endif %}
-						{% endfor %}
-					</tr>
-				</table>
-				<br/>
-			{% endif %}
-		{% endfor %}
-	{% endif %}
-</div>
+{% if hasData %}
+	{% for signalData in signals %}
+		{% if showText %}
+			{{ signalData.displayDay }}, {{ signalData.message }}
+		{% endif %}
+		{% if showGraph %}
+			<table class="signalTable">
+				<tr>
+					{% for signalValue in signalData.values %}
+						<td class={{"signalLoad" + signalValue.hvalue}}></td>
+					{% endfor %}
+				</tr>
+				<tr class="signalHours">
+					{% for signalValue in signalData.values %}
+						{% if (signalValue.pas % 2 == 0) %}
+							<td><span>{{ signalValue.pas }}h</span></td>
+						{% else %}
+							<td><span></span></td>
+						{% endif %}
+					{% endfor %}
+				</tr>
+			</table>
+		{% endif %}
+	{% endfor %}
+{% else %}
+	<div class="dimmed light small">
+		{{ "LOADING" | translate }}
+	</div>
+{% endif %}
