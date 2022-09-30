@@ -9,18 +9,8 @@ Module.register("MMM-Ecowatt", {
 
     // Default module config.
     defaults: {
-        coloricon: false,
         updateInterval: 20 * 60 * 1000, // every 20 minutes
-        timeFormat: config.timeFormat,
-        lang: config.language,
-        fctext: "1",
-        alerttime: 5000,
-        sysstat: 0,
-        scaletxt: 1,
 		debug: 1,
-		socknot: "GET_ECOWATT",
-		sockrcv: "ECOWATT",
-        retryDelay: 2500,
         apiBaseUrl: "https://digital.iservices.rte-france.com",
         apiOAuthPath: "/token/oauth/",
         apiSignalsPath: "/open_api/ecowatt/v4/signals", 
@@ -68,7 +58,7 @@ Module.register("MMM-Ecowatt", {
         if (this.config.debug === 1) {
 			Log.info("Ecowatt: Getting info.");
 		}
-		this.sendSocketNotification(this.config.socknot, this.config);
+		this.sendSocketNotification("GET_ECOWATT", this.config);
     },
 
     /* processSignals(data)
@@ -122,9 +112,9 @@ Module.register("MMM-Ecowatt", {
 			Log.info('ECOWATT received ' + notification);
 		}
 
-        if (notification === this.config.sockrcv) {
+        if (notification === "ECOWATT") {
             if (this.config.debug === 1) {
-				Log.info('received ' + this.config.sockrcv);
+				Log.info('received ECOWATT');
 				Log.info(payload);
 			}
             self.processSignals(payload);
