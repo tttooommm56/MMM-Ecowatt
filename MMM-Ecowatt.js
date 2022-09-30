@@ -83,13 +83,12 @@ Module.register("MMM-Ecowatt", {
 				this.config.signals = data.signals.sort(function(a,b){
 					return new Date(a.jour) - new Date(b.jour);
 				});
-				var momentToday = moment(new Date());
-				var momentTomorrow = moment(new Date()).add(1, 'day');
+
 				this.config.signals.forEach(signal => {
 					var momentDay = moment(signal.jour);
-					if (momentDay.startOf('day').diff((momentToday.startOf('day')), 'days') == 0) {
+					if (moment().isSame(momentDay, 'day')) {
 						signal.displayDay = "aujourd'hui"; 
-					} else if (momentDay.startOf('day').diff((momentTomorrow).startOf('day'), 'days') == 0) {
+					} else if (moment().add(1, 'day').isSame(momentDay, 'day')) {
 						signal.displayDay = "demain"; 
 					} else {
 						signal.displayDay = momentDay.format('dddd');
