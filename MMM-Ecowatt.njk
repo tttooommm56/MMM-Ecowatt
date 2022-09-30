@@ -1,27 +1,39 @@
 {% if loaded %}
-	{% for signalData in signals %}
-		{% if config.showText %}
-			{{ signalData.displayDay }}, {{ signalData.message }}
+	<div class="normal medium title">
+		{% if config.useColorLegend %}
+			<span class="fa-solid fa-plug dimmed" style="color: {{ signals[0].dvalue | level2color }};"></span>
+		{% else %}
+			<span class="fa-solid fa-plug dimmed"></span>
 		{% endif %}
-		{% if config.showGraph %}
-			<table class="signalTable">
-				<tr>
-					{% for signalValue in signalData.values %}
-						<td class={{"signalLoad" + signalValue.hvalue}}></td>
-					{% endfor %}
-				</tr>
-				<tr class="signalHours">
-					{% for signalValue in signalData.values %}
-						{% if (signalValue.pas % 2 == 0) %}
-							<td><span>{{ signalValue.pas }}h</span></td>
-						{% else %}
-							<td><span></span></td>
-						{% endif %}
-					{% endfor %}
-				</tr>
-			</table>
-		{% endif %}
-	{% endfor %}
+		<span>&nbsp;</span>
+		<span>{{ signals[0].message }}</span>
+	</div>
+	
+	<div class="normal small signals">
+		{% for signalData in signals %}
+			{% if config.showText %}
+				{{ signalData.displayDay }}, {{ signalData.message }}
+			{% endif %}
+			{% if config.showGraph %}
+				<table class="signalTable">
+					<tr>
+						{% for signalValue in signalData.values %}
+							<td style="background-color: {{ signalValue.hvalue | level2color }};"></td>
+						{% endfor %}
+					</tr>
+					<tr class="signalHours">
+						{% for signalValue in signalData.values %}
+							{% if (signalValue.pas % 2 == 0) %}
+								<td><span>{{ signalValue.pas }}h</span></td>
+							{% else %}
+								<td><span></span></td>
+							{% endif %}
+						{% endfor %}
+					</tr>
+				</table>
+			{% endif %}
+		{% endfor %}
+	</div>
 {% else %}
 	<div class="dimmed light small">
 		{{ "LOADING" | translate }}

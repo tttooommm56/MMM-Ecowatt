@@ -17,6 +17,7 @@ Module.register("MMM-Ecowatt", {
 		animationSpeed: 1000, // 1 second
 		showText: true,
 		showGraph: true,
+		useColorLegend: true,
 		
 		initialLoadDelay: 0, // 0 seconds delay
 		
@@ -46,15 +47,18 @@ Module.register("MMM-Ecowatt", {
 
 	// Define required scripts.
 	getStyles: function() {
-		return ["MMM-Ecowatt.css"];
+		return ["MMM-Ecowatt.css", "font-awesome.css"];
 	},
 
 	// Define start sequence.
 	start: function() {
 		Log.info("Starting module: " + this.name);
 
-		// Set locale.
+		// Set locale
 		moment.locale(config.language);
+		
+		// Add custom filters
+		this.addFilters();
 		
 		this.signals = [];
 
@@ -97,7 +101,7 @@ Module.register("MMM-Ecowatt", {
 	socketNotificationReceived: function(notification, payload) {
 		if(notification === "STARTED") {
 			this.updateDom(this.config.animationSpeed);
-		} else if(notification === "DATA") {
+		} else if(notification === "DATA") { Log.error(payload);
 			this.processSignals(payload);
 		} else if(notification === "ERROR") {
 			Log.error(this.name + ": Do not access to data (" + payload + ").");
@@ -121,9 +125,33 @@ Module.register("MMM-Ecowatt", {
 		}, nextLoad);
 	},
 	
+	// Convert risk's level to color
+	level2color: function(level) {
+		switch(level) {
+			case 1:
+				return "#007b3d";
+				break;
+			case 2:
+				return "#ee750c";
+				break;
+			case 3:
+				return "#b30000";
+				break;
+		}
+	},
+	
 	// Capitalize the first letter of a string
 	capFirst: function (string) {
 		return string.charAt(0).toUpperCase() + string.slice(1);
+	},
+	
+	addFilters() {
+		this.nunjucksEnvironment().addFilter(
+			"level2color",
+			function (value) {
+				return this.level2color(value);
+			}.bind(this)
+		);
 	}
 
 });
