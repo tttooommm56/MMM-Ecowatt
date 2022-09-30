@@ -15,6 +15,7 @@ var moment = require('moment');
 module.exports = NodeHelper.create({
 	fecthEcowatt: function() {
 		var self = this;
+		
 		// Get Oauth2 token
 		axios({
 			url: self.config.apiOAuthPath, 
@@ -23,7 +24,7 @@ module.exports = NodeHelper.create({
 			method: 'post'
 		})
 		.then(function (response) {
-			if (response.status == 200 && response.data) {
+			if(response.status == 200 && response.data) {
 				// Get signals data
 				axios({
 					url: self.config.apiSignalsPath, 

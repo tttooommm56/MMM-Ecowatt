@@ -29,11 +29,11 @@ Module.register("MMM-Ecowatt", {
 		//apiSignalsPath: "/open_api/ecowatt/v4/sandbox/signals", //sandbox
 	},
 
-	getTemplate: function () {
+	getTemplate: function() {
 		return "MMM-Ecowatt.njk";
 	},
 
-	getTemplateData: function () {
+	getTemplateData: function() {
 		return {
 			config: this.config,
 			signals: this.signals,
@@ -73,15 +73,13 @@ Module.register("MMM-Ecowatt", {
 			return;
 		}
 
-		this.signals = data.signals.sort(function(a,b){
-			return new Date(a.jour) - new Date(b.jour);
-		});
+		this.signals = data.signals.sort((a, b) => moment(a.jour).diff(moment(b.jour)));
 		
 		this.signals.forEach(signal => {
 			var momentDay = moment(signal.jour);
-			if (moment().isSame(momentDay, 'day')) {
+			if(moment().isSame(momentDay, 'day')) {
 				signal.displayDay = "Aujourd'hui"; 
-			} else if (moment().add(1, 'day').isSame(momentDay, 'day')) {
+			} else if(moment().add(1, 'day').isSame(momentDay, 'day')) {
 				signal.displayDay = "Demain"; 
 			} else {
 				signal.displayDay = this.capFirst(momentDay.format('dddd'));
