@@ -13,15 +13,8 @@ var axios = require('axios');
 var moment = require('moment');
 
 module.exports = NodeHelper.create({
-	start: function () {
-		console.log('MMM-Ecowatt helper started ...');
-		this.fetcherRunning = false;
-	},
-
 	fecthEcowatt: function() {
 		var self = this;
-		this.fetcherRunning = true; 
-
 		// Get Oauth2 token
 		axios({
 			url: self.config.apiOAuthPath, 
@@ -40,40 +33,31 @@ module.exports = NodeHelper.create({
 				})
 				.then(function (response) {
 					if (response.status == 200 && response.data) {
-						self.sendSocketNotification('ECOWATT', response.data);
+						self.sendSocketNotification("DATA", response.data);
 					} else {
-						console.log('Ecowatt get signals error : ', response.statusText);
+						self.sendSocketNotification("ERROR", 'Ecowatt get signals error: ' + response.statusText);
 					}
 				})
 				.catch(function (error) {
-					console.log('Ecowatt get signals error : ', error);
+					self.sendSocketNotification("ERROR", error);
 				});
 			} else {
-				console.log('Ecowatt Oauth2 error : ', response.statusText);
+				self.sendSocketNotification("ERROR", 'Ecowatt Oauth2 error: ' + response.statusText);
 			}
-
-			setTimeout(function() {
-				self.fecthEcowatt();
-			}, self.config.updateInterval);
 		})
 		.catch(function (error) {
-			console.log('Ecowatt Oauth2 error : ', error);
+			self.sendSocketNotification("ERROR", error);
 		});
 	},
 
-	//Subclass socketNotificationReceived received.
 	socketNotificationReceived: function(notification, payload) {
 		var self = this;
 
-		if (notification === "GET_ECOWATT") {
-			this.config = payload;
-			if (this.config.debug === 1) {
-				console.log('Lets get Ecowatt signals data');
-			}
-
-			if (!this.fetcherRunning) {
-				this.fecthEcowatt();
-			}
+		if (notification === "CONFIG") {
+			self.config = payload;
+			self.sendSocketNotification("STARTED", true);
+			self.fecthEcowatt();
 		}
 	}
+	
 });

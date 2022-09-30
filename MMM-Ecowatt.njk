@@ -1,9 +1,9 @@
-{% if hasData %}
+{% if loaded %}
 	{% for signalData in signals %}
-		{% if showText %}
+		{% if config.showText %}
 			{{ signalData.displayDay }}, {{ signalData.message }}
 		{% endif %}
-		{% if showGraph %}
+		{% if config.showGraph %}
 			<table class="signalTable">
 				<tr>
 					{% for signalValue in signalData.values %}

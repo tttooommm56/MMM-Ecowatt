@@ -12,24 +12,31 @@ Module.register("MMM-Ecowatt", {
 
 	// Default module config.
 	defaults: {
+		apiTokenBase64: "",
 		updateInterval: 20 * 60 * 1000, // every 20 minutes
+		animationSpeed: 1000, // 1 second
+		showText: true,
+		showGraph: true,
+		
+		initialLoadDelay: 0, // 0 seconds delay
+		
 		debug: 1,
 		apiBaseUrl: "https://digital.iservices.rte-france.com",
 		apiOAuthPath: "/token/oauth/",
 		apiSignalsPath: "/open_api/ecowatt/v4/signals", 
 		//apiSignalsPath: "/open_api/ecowatt/v4/sandbox/signals", //sandbox
-		showText: true,
-		showGraph: true,
-		signals: [],
-		hasData: false
 	},
 
 	getTemplate: function () {
-		return "MMM-Ecowatt.njk"
+		return "MMM-Ecowatt.njk";
 	},
 
 	getTemplateData: function () {
-		return this.config;
+		return {
+			config: this.config,
+			signals: this.signals,
+			loaded: this.loaded
+		};
 	},
 
 	// Define required scripts.
@@ -48,80 +55,70 @@ Module.register("MMM-Ecowatt", {
 
 		// Set locale.
 		moment.locale(config.language);
+		
+		this.signals = [];
 
 		this.loaded = false;
-		this.error = false;
-		this.errorDescription = "";
-		this.getSignals();
-		this.updateTimer = null;
-		this.systemp = "";
+		this.scheduleUpdate(this.config.initialLoadDelay);
 	},
 
-	getSignals: function() {
-		if (this.config.debug === 1) {
-			Log.info("Ecowatt: Getting info.");
-		}
-		this.sendSocketNotification("GET_ECOWATT", this.config);
-	},
-
-	/* processSignals(data)
-	 * Uses the received data to set the various values.
-	 *
-	 * argument data object - Signals data received form ecowatt.
-	 */
 	processSignals: function(data) {
-		if (this.config.debug === 1) {
-			Log.info('ECOWATT processSignals data : ');
-			Log.info(data);
-		} 
+		if(!data || typeof data.signals === "undefined") {
+			Log.error(this.name + ": Do not receive usable data.");
+			return;
+		}
 
-		if (data) {
-			this.config.hasData = data.signals != null && data.signals.length > 0;
-
-			if (this.config.hasData) {
-				// Graph data
-				this.config.signals = data.signals.sort(function(a,b){
-					return new Date(a.jour) - new Date(b.jour);
-				});
-
-				this.config.signals.forEach(signal => {
-					var momentDay = moment(signal.jour);
-					if (moment().isSame(momentDay, 'day')) {
-						signal.displayDay = "Aujourd'hui"; 
-					} else if (moment().add(1, 'day').isSame(momentDay, 'day')) {
-						signal.displayDay = "Demain"; 
-					} else {
-						signal.displayDay = this.capFirst(momentDay.format('dddd'));
-					}
-				});
-
-				if (this.config.days) {
-					this.config.signals.length = this.config.days;
-				}
+		this.signals = data.signals.sort(function(a,b){
+			return new Date(a.jour) - new Date(b.jour);
+		});
+		
+		this.signals.forEach(signal => {
+			var momentDay = moment(signal.jour);
+			if (moment().isSame(momentDay, 'day')) {
+				signal.displayDay = "Aujourd'hui"; 
+			} else if (moment().add(1, 'day').isSame(momentDay, 'day')) {
+				signal.displayDay = "Demain"; 
+			} else {
+				signal.displayDay = this.capFirst(momentDay.format('dddd'));
 			}
+		});
 
+		if (this.config.days) {
+			this.signals.length = this.config.days;
+		}
+	
+		this.loaded = true;
+		this.updateDom(this.config.animationSpeed);
+		this.scheduleUpdate();
+	},
+	
+	
+	// Request new data from rte-france.com with node_helper
+	socketNotificationReceived: function(notification, payload) {
+		if(notification === "STARTED") {
 			this.updateDom(this.config.animationSpeed);
-
-		} else {
-			this.config.hasData = false;
+		} else if(notification === "DATA") {
+			this.processSignals(payload);
+		} else if(notification === "ERROR") {
+			Log.error(this.name + ": Do not access to data (" + payload + ").");
+		} else if(notification === "DEBUG") {
+			Log.log(payload);
 		}
 	},
 
-	socketNotificationReceived: function(notification, payload) {
+	// Schedule next update
+	scheduleUpdate: function(delay) {
+		var nextLoad = this.config.updateInterval;
+		if(typeof delay !== "undefined" && delay >= 0) {
+			nextLoad = delay;
+		}
+
+		clearInterval(this.timerUpdate);
+
 		var self = this;
-
-		if (this.config.debug === 1) {
-			Log.info('ECOWATT received ' + notification);
-		}
-
-		if (notification === "ECOWATT") {
-			if (this.config.debug === 1) {
-				Log.info('received ECOWATT');
-				Log.info(payload);
-			}
-			self.processSignals(payload);
-		}
-
+		this.timerUpdate = setTimeout(function() {
+			self.sendSocketNotification('CONFIG', self.config);
+		}, nextLoad);
 	},
 	
 	// Capitalize the first letter of a string
