@@ -22,7 +22,6 @@ Module.register("MMM-Ecowatt", {
 		
 		initialLoadDelay: 0, // 0 seconds delay
 		
-		debug: 1,
 		apiBaseUrl: "https://digital.iservices.rte-france.com",
 		apiOAuthPath: "/token/oauth/",
 		apiSignalsPath: "/open_api/ecowatt/v4/signals", 
@@ -100,7 +99,7 @@ Module.register("MMM-Ecowatt", {
 	socketNotificationReceived: function(notification, payload) {
 		if(notification === "STARTED") {
 			this.updateDom(this.config.animationSpeed);
-		} else if(notification === "DATA") { Log.error(payload);
+		} else if(notification === "DATA") {
 			this.processSignals(payload);
 		} else if(notification === "ERROR") {
 			Log.error(this.name + ": Do not access to data (" + payload + ").");
