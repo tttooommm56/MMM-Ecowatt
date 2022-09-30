@@ -13,18 +13,18 @@ Module.register("MMM-Ecowatt", {
 	// Default module config.
 	defaults: {
 		apiTokenBase64: "",
+		days: 1, // 1 day
 		updateInterval: 20 * 60 * 1000, // every 20 minutes
 		animationSpeed: 1000, // 1 second
-		maximumEntries: 1,
 		showText: true,
 		showGraph: true,
 		useColorLegend: true,
-		
+
 		initialLoadDelay: 0, // 0 seconds delay
-		
+
 		apiBaseUrl: "https://digital.iservices.rte-france.com",
 		apiOAuthPath: "/token/oauth/",
-		apiSignalsPath: "/open_api/ecowatt/v4/signals", 
+		apiSignalsPath: "/open_api/ecowatt/v4/signals",
 		//apiSignalsPath: "/open_api/ecowatt/v4/sandbox/signals", //sandbox
 	},
 
@@ -56,10 +56,10 @@ Module.register("MMM-Ecowatt", {
 
 		// Set locale
 		moment.locale(config.language);
-		
+
 		// Add custom filters
 		this.addFilters();
-		
+
 		this.signals = [];
 
 		this.loaded = false;
@@ -73,28 +73,27 @@ Module.register("MMM-Ecowatt", {
 		}
 
 		this.signals = data.signals.sort((a, b) => moment(a.jour).diff(moment(b.jour)));
-		
+
 		this.signals.forEach(signal => {
 			var momentDay = moment(signal.jour);
 			if(moment().isSame(momentDay, 'day')) {
-				signal.displayDay = "Aujourd'hui"; 
+				signal.displayDay = "aujourd'hui";
 			} else if(moment().add(1, 'day').isSame(momentDay, 'day')) {
-				signal.displayDay = "Demain"; 
+				signal.displayDay = "demain";
 			} else {
-				signal.displayDay = this.capFirst(momentDay.format('dddd'));
+				signal.displayDay = momentDay.format('dddd');
 			}
 		});
 
-		if(this.config.maximumEntries >= 1 && this.config.maximumEntries <= 4) {
-			this.signals = this.signals.slice(0, this.config.maximumEntries);
+		if(this.config.days >= 1 && this.config.days <= 4) {
+			this.signals = this.signals.slice(0, this.config.days);
 		}
-	
+
 		this.loaded = true;
 		this.updateDom(this.config.animationSpeed);
 		this.scheduleUpdate();
 	},
-	
-	
+
 	// Request new data from rte-france.com with node_helper
 	socketNotificationReceived: function(notification, payload) {
 		if(notification === "STARTED") {
@@ -122,8 +121,8 @@ Module.register("MMM-Ecowatt", {
 			self.sendSocketNotification('CONFIG', self.config);
 		}, nextLoad);
 	},
-	
-	// Convert risk's level to color
+
+	// Convert signal's level to color
 	level2color: function(level) {
 		switch(level) {
 			case 1:
@@ -137,16 +136,11 @@ Module.register("MMM-Ecowatt", {
 				break;
 		}
 	},
-	
-	// Capitalize the first letter of a string
-	capFirst: function (string) {
-		return string.charAt(0).toUpperCase() + string.slice(1);
-	},
-	
+
 	addFilters() {
 		this.nunjucksEnvironment().addFilter(
 			"level2color",
-			function (value) {
+			function(value) {
 				return this.level2color(value);
 			}.bind(this)
 		);

@@ -12,11 +12,8 @@
 	<div class="signals">
 		{% for signalData in signals %}
 			<div>
-				{% if config.showText or config.showGraph %}
-					<div class="normal small day">{{ signalData.displayDay }}</div>
-				{% endif %}
-				{% if config.showText %}
-					<div class="light small message">{{ signalData.message }}</div>
+				{% if config.showText and signals.indexOf(signalData) != 0 %}
+					<div class="light small message">{{ signalData.displayDay | title }}, {{ signalData.message | lower }}</div>
 				{% endif %}
 				{% if config.showGraph %}
 					<div class="timeline">

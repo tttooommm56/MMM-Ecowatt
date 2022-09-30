@@ -36,18 +36,18 @@ module.exports = NodeHelper.create({
 					if (response.status == 200 && response.data) {
 						self.sendSocketNotification("DATA", response.data);
 					} else {
-						self.sendSocketNotification("ERROR", 'Ecowatt get signals error: ' + response.statusText);
+						self.sendSocketNotification("ERROR", 'RTE Ecowatt error: ' + response.statusText);
 					}
 				})
 				.catch(function (error) {
-					self.sendSocketNotification("ERROR", error);
+					self.sendSocketNotification("ERROR", error.message);
 				});
 			} else {
-				self.sendSocketNotification("ERROR", 'Ecowatt Oauth2 error: ' + response.statusText);
+				self.sendSocketNotification("ERROR", 'RTE Oauth2 error: ' + response.statusText);
 			}
 		})
 		.catch(function (error) {
-			self.sendSocketNotification("ERROR", error);
+			self.sendSocketNotification("ERROR", error.message);
 		});
 	},
 
