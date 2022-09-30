@@ -15,6 +15,7 @@ Module.register("MMM-Ecowatt", {
 		apiTokenBase64: "",
 		updateInterval: 20 * 60 * 1000, // every 20 minutes
 		animationSpeed: 1000, // 1 second
+		maximumEntries: 1,
 		showText: true,
 		showGraph: true,
 		useColorLegend: true,
@@ -87,8 +88,8 @@ Module.register("MMM-Ecowatt", {
 			}
 		});
 
-		if (this.config.days) {
-			this.signals.length = this.config.days;
+		if(this.config.maximumEntries >= 1 && this.config.maximumEntries <= 4) {
+			this.signals = this.signals.slice(0, this.config.maximumEntries);
 		}
 	
 		this.loaded = true;
