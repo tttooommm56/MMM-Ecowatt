@@ -1,41 +1,36 @@
-<!--
-	Use ` | safe` to allow html tages within the text string.
-	https://mozilla.github.io/nunjucks/templating.html#autoescaping
--->
-<div class="MMM-Ecowatt small light">
-	{% if not hasData %}
-		Pas de données disponibles
-		
-	{% else %}
-		{% for signalData in signals  %}
-			{% if showText %}
-				<!-- Message ecowatt -->
-				{{ signalData.message }} {{ signalData.displayDay }}
-				<br/>
-			{% endif %}	
-
-			{% if showGraph %}
-				<!-- Graph ecowatt -->
-				<table class="signalTable">
-					<tr>
-						{% for signalValue in signalData.values  %}
-							<td class={{"signalLoad" + signalValue.hvalue}}></td>
-						{% endfor %}
-					</tr>
-
-
-					<tr class="signalHours">
-						{% for signalValue in signalData.values  %}
-							{% if (signalValue.pas % 2 == 0) %}
-								<td><span>{{ signalValue.pas }}h</span></td>
-							{% else %}
-								<td><span></span></td>
+{% if loaded %}
+	<div class="normal medium title">
+		{% if config.useColorLegend %}
+			<span class="fa-solid fa-plug dimmed" style="color: {{ signals[0].dvalue | level2color }};"></span>
+		{% else %}
+			<span class="fa-solid fa-plug dimmed"></span>
+		{% endif %}
+		<span>&nbsp;</span>
+		<span>{{ signals[0].message }}</span>
+	</div>
+	
+	<div class="signals">
+		{% for signalData in signals %}
+			<div>
+				{% if config.showText and signals.indexOf(signalData) != 0 %}
+					<div class="light small message">{{ signalData.displayDay | title }}, {{ signalData.message | lower }}</div>
+				{% endif %}
+				{% if config.showGraph %}
+					<div class="timeline">
+						{% for signalValue in signalData.values %}
+							<div class="signal" style="background-color: {{ signalValue.hvalue | level2color }};">
+							{% if signalData.values.indexOf(signalValue) % 2 == 0 %}
+								<div class="light xsmall hour">{{ signalValue.pas }}h</div>
 							{% endif %}
+							</div>
 						{% endfor %}
-					</tr>
-				</table>	
-				<br/>
-			{% endif %}
+					</div>
+				{% endif %}
+			</div>
 		{% endfor %}
-	{% endif %}
-</div>
+	</div>
+{% else %}
+	<div class="dimmed light small">
+		{{ "LOADING" | translate }}
+	</div>
+{% endif %}

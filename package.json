@@ -1,18 +1,24 @@
 {
-  "name": "mmm-ecowatt",
-  "version": "1.0.0",
+  "name": "MMM-Ecowatt",
+  "version": "2.0.0",
   "description": "A MagicMirror module to display Ecowatt informations.",
+  "main": "MMM-Ecowatt.js",
+  "author": "Thomas Cousin",
+  "contributors": [
+		"https://github.com/tttooommm56/MMM-Ecowatt/graphs/contributors"
+	],
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.27.2"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/tttooommm56/MMM-Ecowatt.git"
   },
-  "main": "MMM-Ecowatt.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "Thomas Cousin",
-  "license": "MIT",
-  "dependencies": {
-    "axios": "^0.27.2"
-  }
+  "keywords": [
+    "ecowatt",
+    "electricity weather",
+    "electricity transmission network",
+    "france"
+  ]
 }
