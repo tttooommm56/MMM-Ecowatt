@@ -1,9 +1,9 @@
 {% if loaded %}
 	<div class="normal medium title">
 		{% if config.useColorLegend %}
-			<span class="fa-solid fa-plug dimmed" style="color: {{ signals[0].dvalue | level2color }};"></span>
+			<span class="fa fa-solid fa-plug dimmed" style="color: {{ signals[0].dvalue | level2color }};"></span>
 		{% else %}
-			<span class="fa-solid fa-plug dimmed"></span>
+			<span class="fa fa-solid fa-plug dimmed"></span>
 		{% endif %}
 		<span>&nbsp;</span>
 		<span>{{ signals[0].message }}</span>
