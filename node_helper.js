@@ -10,7 +10,6 @@
 
 var NodeHelper = require('node_helper');
 var axios = require('axios');
-var moment = require('moment');
 
 module.exports = NodeHelper.create({
 	fecthEcowatt: function() {
