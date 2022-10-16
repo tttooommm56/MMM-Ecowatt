@@ -102,6 +102,7 @@ Module.register("MMM-Ecowatt", {
 			this.processSignals(payload);
 		} else if(notification === "ERROR") {
 			Log.error(this.name + ": Do not access to data (" + payload + ").");
+			this.scheduleUpdate();
 		} else if(notification === "DEBUG") {
 			Log.log(payload);
 		}
