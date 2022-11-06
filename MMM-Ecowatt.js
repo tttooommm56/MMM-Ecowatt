@@ -96,15 +96,17 @@ Module.register("MMM-Ecowatt", {
 
 	// Request new data from rte-france.com with node_helper
 	socketNotificationReceived: function(notification, payload) {
-		if(notification === "STARTED") {
-			this.updateDom(this.config.animationSpeed);
-		} else if(notification === "DATA") {
-			this.processSignals(payload);
-		} else if(notification === "ERROR") {
-			Log.error(this.name + ": Do not access to data (" + payload + ").");
-			this.scheduleUpdate();
-		} else if(notification === "DEBUG") {
-			Log.log(payload);
+		switch (notification) {
+			case "ECOWATT_STARTED": 
+				this.updateDom(this.config.animationSpeed); 
+				break;
+			case "ECOWATT_DATA": 
+				this.processSignals(payload); 
+				break;
+			case "ECOWATT_ERROR": 
+				Log.error(this.name + ": Do not access to data (" + payload + ").");
+				this.scheduleUpdate();
+				break;
 		}
 	},
 
@@ -119,7 +121,7 @@ Module.register("MMM-Ecowatt", {
 
 		var self = this;
 		this.timerUpdate = setTimeout(function() {
-			self.sendSocketNotification('CONFIG', self.config);
+			self.sendSocketNotification('ECOWATT_CONFIG', self.config);
 		}, nextLoad);
 	},
 
