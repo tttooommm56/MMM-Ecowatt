@@ -19,6 +19,9 @@
 					<div class="timeline">
 						{% for signalValue in signalData.values %}
 							<div class="signal" style="background-color: {{ signalValue.hvalue | level2color }};">
+							{% if config.showCarbonFreeProduction and signalValue.hvalue == 0 %}
+								<span class="fa-solid fa-leaf"></span>
+							{% endif %}
 							{% if signalData.values.indexOf(signalValue) % 2 == 0 %}
 								<div class="light xsmall hour">{{ signalValue.pas }}h</div>
 							{% endif %}

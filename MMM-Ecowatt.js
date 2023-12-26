@@ -18,14 +18,15 @@ Module.register("MMM-Ecowatt", {
 		animationSpeed: 1000, // 1 second
 		showText: true,
 		showGraph: true,
+		showCarbonFreeProduction: true,
 		useColorLegend: true,
 
 		initialLoadDelay: 0, // 0 seconds delay
 
 		apiBaseUrl: "https://digital.iservices.rte-france.com",
 		apiOAuthPath: "/token/oauth/",
-		apiSignalsPath: "/open_api/ecowatt/v4/signals",
-		//apiSignalsPath: "/open_api/ecowatt/v4/sandbox/signals", //sandbox
+		apiSignalsPath: "/open_api/ecowatt/v5/signals",
+		//apiSignalsPath: "/open_api/ecowatt/v5/sandbox/signals", //sandbox
 	},
 
 	getTemplate: function() {
@@ -128,6 +129,9 @@ Module.register("MMM-Ecowatt", {
 	// Convert signal's level to color
 	level2color: function(level) {
 		switch(level) {
+			case 0:
+				return "#007b3d";
+				break;
 			case 1:
 				return "#007b3d";
 				break;
