@@ -1,9 +1,9 @@
 {% if loaded %}
 	<div class="small title bright">
 		{% if config.useColorLegend %}
-			<span class="fa fa-solid fa-bolt dimmed" style="color: {{ signals[0].dvalue | level2color }};"></span>
+			<span class="fa fa-solid {{ signals[0].dvalue | level2icon }} dimmed" style="color: {{ signals[0].dvalue | level2color }};"></span>
 		{% else %}
-			<span class="fa fa-solid fa-bolt dimmed"></span>
+			<span class="fa fa-solid {{ signals[0].dvalue | level2icon }} dimmed"></span>
 		{% endif %}
 		<span>&nbsp;</span>
 		<span>{{ signals[0].message }}</span>

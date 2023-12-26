@@ -4,9 +4,8 @@ This module displays the current level of signal of ecowatt set by RTE for metro
 Message, Graph and Color Legend display may be enabled or disabled independently. The number of days to display can be fixed.
 
 <p align="left">
-<img alt="MMM-Ecowatt Screenshot #1" src="MMM-Ecowatt_screenshot1.png" align="top" height="66px">
+<img alt="MMM-Ecowatt Screenshot #1" src="MMM-Ecowatt_screenshot1.png" align="top" height="160px">
 <img alt="MMM-Ecowatt Screenshot #2" src="MMM-Ecowatt_screenshot2.png" align="top" height="109px">
-<img alt="MMM-Ecowatt Screenshot #3" src="MMM-Ecowatt_screenshot3.png" align="top" height="84px">
 </p>
 
 [MagicMirror Project on Github](https://github.com/MichMich/MagicMirror) | [Ecowatt](https://www.monecowatt.fr/)

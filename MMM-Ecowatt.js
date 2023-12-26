@@ -144,11 +144,36 @@ Module.register("MMM-Ecowatt", {
 		}
 	},
 
+	// Convert signal's level to icon
+	level2icon: function(level) {
+		switch(level) {
+			case 0:
+				return "fa-leaf";
+				break;
+			case 1:
+				return "fa-check-circle ";
+				break;
+			case 2:
+				return "fa-exclamation-circle";
+				break;
+			case 3:
+				return "fa-bolt";
+				break;
+		}
+	},
+
 	addFilters() {
 		this.nunjucksEnvironment().addFilter(
 			"level2color",
 			function(value) {
 				return this.level2color(value);
+			}.bind(this)
+		);
+
+		this.nunjucksEnvironment().addFilter(
+			"level2icon",
+			function(value) {
+				return this.level2icon(value);
 			}.bind(this)
 		);
 	}
