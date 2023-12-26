@@ -11,6 +11,8 @@ Message, Graph and Color Legend display may be enabled or disabled independently
 
 [MagicMirror Project on Github](https://github.com/MichMich/MagicMirror) | [Ecowatt](https://www.monecowatt.fr/)
 
+⚠️ **MMM-Ecowatt 2.1** (December 2023) uses the **new EcoWatt API** (v5). Don’t forget to [subscribe to EcoWatt v5](https://data.rte-france.com/catalog/-/api/consumption/Ecowatt/v5.0) on RTE API portal and **attach it** to **your application** to continue using **your current token**!
+
 ## Installation:
 
 In your terminal, go to your MagicMirror's Module folder:
@@ -76,12 +78,13 @@ The following properties can be configured:
 
 | Option                       | Description
 | ---------------------------- | -----------
-| `apiTokenBase64`             | The [Ecowatt](https://data.rte-france.com/catalog/-/api/consumption/Ecowatt/v4.0) API Token (base-64 encoded), which can be obtained by [subscribing](https://data.rte-france.com/catalog/-/api/consumption/Ecowatt/v4.0) on RTE API portal and by clicking on the `Copier en base 64` button in [your applications](https://data.rte-france.com/group/guest/apps). It's free! <br><br> This value is **REQUIRED**
+| `apiTokenBase64`             | The [Ecowatt](https://data.rte-france.com/catalog/-/api/consumption/Ecowatt/v5.0) API Token (base-64 encoded), which can be obtained by [subscribing](https://data.rte-france.com/catalog/-/api/consumption/Ecowatt/v5.0) on RTE API portal and by clicking on the `Copier en base 64` button in [your applications](https://data.rte-france.com/group/guest/apps). It's free! <br><br> This value is **REQUIRED**
 | `days`                       | Number of days to display. <br><br> **Possible values:** `1` - `4` <br> **Default value:** `1` (1 day)
 | `updateInterval`             | How often does the content needs to be fetched? (Milliseconds)  <br><br> **Possible values:** `90000` - `86400000` <br> **Default value:** `20 * 60 * 1000` (20 minutes)
 | `animationSpeed`             | Speed of the update animation. (Milliseconds) <br><br> **Possible values:**`0` - `5000` <br> **Default value:** `1000` (1 second)
 | `showText`                   | Show the ecowatt message for the next days (for `days` > 1). <br><br> **Possible values:** `true` or `false` <br> **Default value:** `true`
 | `showGraph`                  | Show the ecowatt detail graph for each day. <br><br> **Possible values:** `true` or `false` <br> **Default value:** `true`
+| `showCarbonFreeProduction`   | Display ecowatt indication for carbon-free production (leaf icon in the chart). <br><br> **Possible values:** `true` or `false` <br> **Default value:** `true`
 | `useColorLegend`             | Use the colored icons. <br><br> **Possible values:** `true` or `false` <br> **Default value:** `true`
 | `initialLoadDelay`           | The initial delay before loading. If you have multiple modules that use the same API key, you might want to delay one of the requests. (Milliseconds) <br><br> **Possible values:** `1000` - `5000` <br> **Default value:**  `0`
 | `apiBaseUrl`                 | The RTE API base URL. <br><br> **Default value:**  `'https://digital.iservices.rte-france.com'`
