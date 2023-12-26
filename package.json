@@ -1,6 +1,6 @@
 {
   "name": "MMM-Ecowatt",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "A MagicMirror module to display Ecowatt informations.",
   "main": "MMM-Ecowatt.js",
   "author": "Thomas Cousin",
