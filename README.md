@@ -84,7 +84,7 @@ The following properties can be configured:
 | `showGraph`                  | Show the ecowatt detail graph for each day. <br><br> **Possible values:** `true` or `false` <br> **Default value:** `true`
 | `useColorLegend`             | Use the colored icons. <br><br> **Possible values:** `true` or `false` <br> **Default value:** `true`
 | `initialLoadDelay`           | The initial delay before loading. If you have multiple modules that use the same API key, you might want to delay one of the requests. (Milliseconds) <br><br> **Possible values:** `1000` - `5000` <br> **Default value:**  `0`
-| `apiBaseUrl                  | The RTE API base URL. <br><br> **Default value:**  `'https://digital.iservices.rte-france.com'`
+| `apiBaseUrl`                 | The RTE API base URL. <br><br> **Default value:**  `'https://digital.iservices.rte-france.com'`
 | `apiOAuthPath`               | The OAuth API endPoint. <br><br> **Default value:**  `'/token/oauth/'`
 | `apiSignalsPath`             | The Signals API endPoint. <br><br> **Default value:**  `'/open_api/ecowatt/v4/signals'`
 

@@ -1,6 +1,6 @@
 .MMM-Ecowatt .title,
 .MMM-Ecowatt .signals {
-  margin-bottom: 10px;
+	margin-bottom: 10px;
 }
 
 .MMM-Ecowatt .timeline {
@@ -18,13 +18,13 @@
 
 .MMM-Ecowatt .timeline .signal:first-child {
 	border-left: 1px solid #000000;
-  border-top-left-radius: 2em;
-  border-bottom-left-radius: 2em;
+	border-top-left-radius: 2em;
+	border-bottom-left-radius: 2em;
 }
 
 .MMM-Ecowatt .timeline .signal:last-child {
-  border-top-right-radius: 2em;
-  border-bottom-right-radius: 2em;
+	border-top-right-radius: 2em;
+	border-bottom-right-radius: 2em;
 }
 
 .MMM-Ecowatt .timeline .signal .hour {

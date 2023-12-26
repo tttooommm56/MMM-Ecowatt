@@ -10,7 +10,6 @@
 
 var NodeHelper = require('node_helper');
 var axios = require('axios');
-var moment = require('moment');
 
 module.exports = NodeHelper.create({
 	fecthEcowatt: function() {
@@ -34,29 +33,29 @@ module.exports = NodeHelper.create({
 				})
 				.then(function (response) {
 					if (response.status == 200 && response.data) {
-						self.sendSocketNotification("DATA", response.data);
+						self.sendSocketNotification("ECOWATT_DATA", response.data);
 					} else {
-						self.sendSocketNotification("ERROR", 'RTE Ecowatt error: ' + response.statusText);
+						self.sendSocketNotification("ECOWATT_ERROR", 'RTE Ecowatt error: ' + response.statusText);
 					}
 				})
 				.catch(function (error) {
-					self.sendSocketNotification("ERROR", error.message);
+					self.sendSocketNotification("ECOWATT_ERROR", error.message);
 				});
 			} else {
-				self.sendSocketNotification("ERROR", 'RTE Oauth2 error: ' + response.statusText);
+				self.sendSocketNotification("ECOWATT_ERROR", 'RTE Oauth2 error: ' + response.statusText);
 			}
 		})
 		.catch(function (error) {
-			self.sendSocketNotification("ERROR", error.message);
+			self.sendSocketNotification("ECOWATT_ERROR", error.message);
 		});
 	},
 
 	socketNotificationReceived: function(notification, payload) {
 		var self = this;
 
-		if (notification === "CONFIG") {
+		if (notification === "ECOWATT_CONFIG") {
 			self.config = payload;
-			self.sendSocketNotification("STARTED", true);
+			self.sendSocketNotification("ECOWATT_STARTED", true);
 			self.fecthEcowatt();
 		}
 	}
