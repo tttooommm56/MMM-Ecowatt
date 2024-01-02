@@ -1,27 +1,45 @@
 {% if loaded %}
-	<div class="small title bright">
-		{% if config.useColorLegend %}
-			<span class="fa fa-solid {{ signals[0].dvalue | level2icon }} dimmed" style="color: {{ signals[0].dvalue | level2color }};"></span>
-		{% else %}
-			<span class="fa fa-solid {{ signals[0].dvalue | level2icon }} dimmed"></span>
-		{% endif %}
-		<span>&nbsp;</span>
-		<span>{{ signals[0].message }}</span>
-	</div>
-	
+	{% if config.showText %}
+		<div class="small title bright">
+			<!-- Ecowatt current status -->
+			{% if config.useColorLegend %}
+				<span class="fa fa-solid {{ signals[0].dvalue | level2icon }} dimmed" style="color: {{ signals[0].dvalue | level2color }};"></span>
+			{% else %}
+				<span class="fa fa-solid {{ signals[0].dvalue | level2icon }} dimmed"></span>
+			{% endif %}
+			<span>&nbsp;</span>
+			<span>{{ signals[0].message }}</span>
+		</div>
+	{% endif %}
+
 	<div class="signals">
+		<!-- Ecowatt status for next days -->
 		{% for signalData in signals %}
 			<div>
 				{% if config.showText and signals.indexOf(signalData) != 0 %}
+					<!-- Ecowatt day information -->
 					<div class="light small message">{{ signalData.displayDay | title }}, {{ signalData.message | lower }}</div>
 				{% endif %}
+
 				{% if config.showGraph %}
+					<!-- Ecowatt information per hour -->
 					<div class="timeline">
 						{% for signalValue in signalData.values %}
-							<div class="signal" style="background-color: {{ signalValue.hvalue | level2color }};">
-							{% if config.showCarbonFreeProduction and signalValue.hvalue == 0 %}
-								<span class="fa-solid fa-leaf"></span>
-							{% endif %}
+							{% if config.useColorLegend %}
+								<!-- Colorful timeline -->
+								<div class="signal" style="background-color: {{ signalValue.hvalue | level2color }};">
+								{% if config.showCarbonFreeProduction and signalValue.hvalue == 0 %}
+									<span class="fa-solid fa-leaf"></span>
+								{% endif %}
+							{% else %}
+								<!-- Monochrome timeline -->
+								<div class="signal" style="border-color: #666; border-top: 1px solid; border-bottom: 1px solid">
+								{% if signalValue.hvalue > 1 or (config.showCarbonFreeProduction and signalValue.hvalue == 0)  %}
+									<!-- Display icon only if status different from 1 (normal status) -->
+									<span class="fa fa-solid {{ signalValue.hvalue | level2icon }} dimmed"></span>
+								{% endif %}
+							{% endif %}	
+							
 							{% if signalData.values.indexOf(signalValue) % 2 == 0 %}
 								<div class="light xsmall hour">{{ signalValue.pas }}h</div>
 							{% endif %}
