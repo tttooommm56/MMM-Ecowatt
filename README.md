@@ -6,7 +6,7 @@ Message, Graph and Color Legend display may be enabled or disabled independently
 <p align="left">
 <img alt="MMM-Ecowatt Screenshot #1" src="MMM-Ecowatt_screenshot1.png" align="top" height="200px">
 <img alt="MMM-Ecowatt Screenshot #2" src="MMM-Ecowatt_screenshot2.png" align="top" height="120px">
-<img alt="MMM-Ecowatt Screenshot #3" src="MMM-Ecowatt_screenshot3.png" align="top" height="70px">
+<img alt="MMM-Ecowatt Screenshot #3" src="MMM-Ecowatt_screenshot3.png" align="top" height="65px">
 </p>
 
 [MagicMirror Project on Github](https://github.com/MichMich/MagicMirror) | [Ecowatt](https://www.monecowatt.fr/)
