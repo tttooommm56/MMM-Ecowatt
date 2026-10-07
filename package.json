@@ -8,9 +8,6 @@
     "https://github.com/tttooommm56/MMM-Ecowatt/graphs/contributors"
   ],
   "license": "MIT",
-  "dependencies": {
-    "axios": "^1.6.0"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/tttooommm56/MMM-Ecowatt.git"

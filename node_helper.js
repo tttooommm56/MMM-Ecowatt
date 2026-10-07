@@ -9,45 +9,39 @@
  */
 
 var NodeHelper = require('node_helper');
-var axios = require('axios');
 
 module.exports = NodeHelper.create({
-	fecthEcowatt: function() {
+	fecthEcowatt: async function() {
 		var self = this;
 		
-		// Get Oauth2 token
-		axios({
-			url: self.config.apiOAuthPath, 
-			baseURL: self.config.apiBaseUrl,
-			headers: {'Authorization': 'Basic ' + self.config.apiTokenBase64},
-			method: 'post'
-		})
-		.then(function (response) {
-			if(response.status == 200 && response.data) {
-				// Get signals data
-				axios({
-					url: self.config.apiSignalsPath, 
-					baseURL: self.config.apiBaseUrl,
-					headers: {'Authorization': 'Bearer ' + response.data.access_token},
-					method: 'get'
-				})
-				.then(function (response) {
-					if (response.status == 200 && response.data) {
-						self.sendSocketNotification("ECOWATT_DATA", response.data);
-					} else {
-						self.sendSocketNotification("ECOWATT_ERROR", 'RTE Ecowatt error: ' + response.statusText);
-					}
-				})
-				.catch(function (error) {
-					self.sendSocketNotification("ECOWATT_ERROR", error.message);
-				});
-			} else {
-				self.sendSocketNotification("ECOWATT_ERROR", 'RTE Oauth2 error: ' + response.statusText);
+		try {
+			// Get Oauth2 token
+			var tokenResponse = await fetch(new URL(self.config.apiOAuthPath, self.config.apiBaseUrl), {
+				headers: {'Authorization': 'Basic ' + self.config.apiTokenBase64},
+				method: 'post'
+			});
+			var tokenData = tokenResponse.status === 200 ? await tokenResponse.json() : null;
+
+			if (tokenResponse.status !== 200 || !tokenData) {
+				self.sendSocketNotification("ECOWATT_ERROR", 'RTE Oauth2 error: ' + tokenResponse.statusText);
+				return;
 			}
-		})
-		.catch(function (error) {
+
+			// Get signals data
+			var signalsResponse = await fetch(new URL(self.config.apiSignalsPath, self.config.apiBaseUrl), {
+				headers: {'Authorization': 'Bearer ' + tokenData.access_token},
+				method: 'get'
+			});
+			var signalsData = signalsResponse.status === 200 ? await signalsResponse.json() : null;
+
+			if (signalsResponse.status === 200 && signalsData) {
+				self.sendSocketNotification("ECOWATT_DATA", signalsData);
+			} else {
+				self.sendSocketNotification("ECOWATT_ERROR", 'RTE Ecowatt error: ' + signalsResponse.statusText);
+			}
+		} catch (error) {
 			self.sendSocketNotification("ECOWATT_ERROR", error.message);
-		});
+		}
 	},
 
 	socketNotificationReceived: function(notification, payload) {
